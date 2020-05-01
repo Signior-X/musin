@@ -21,7 +21,7 @@ public class SecondPage extends AppCompatActivity {
 
     TextView sTitle, sRatings, sLength;
     Button downloadeButton;
-    private String downloadUrl, sName, strTitle;
+    private String downloadUrl, strName, strTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,20 +37,21 @@ public class SecondPage extends AppCompatActivity {
         final Bundle bundle = getIntent().getExtras();
 
         // Setting the parameters
-        sTitle.setText(bundle.getString("title"));
-        sRatings.setText(bundle.getString("ratings"));
-        sLength.setText(bundle.getString("length"));
-        sName = bundle.getString("url");
+        sTitle.setText("Title: "+bundle.getString("name"));
+        sRatings.setText("Ratings: "+bundle.getString("ratings"));
+        sLength.setText("Length: "+bundle.getString("length"));
+
+        // for downloading
+        strName = bundle.getString("name");
         strTitle = bundle.getString("title");
-        // Setting the download url
-        downloadUrl = bundle.getString("host")+bundle.getString("url");
+        downloadUrl = bundle.getString("musicUrl");
 
         downloadeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 /* Download */
                 if(haveStoragePermission()) {  // If the user has granted user permission
-                    downloadFile(downloadUrl, strTitle, sName);
+                    downloadFile(downloadUrl, strTitle, strName);
                 }
             }
         });
@@ -76,7 +77,7 @@ public class SecondPage extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
             //you have the permission now.
-            downloadFile(downloadUrl, strTitle, sName);
+            downloadFile(downloadUrl, strTitle, strName);
         } else{ // Permission denied show toast
             Context context = getApplicationContext();
             CharSequence text = "Permission Denied!";
