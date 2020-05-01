@@ -48,4 +48,24 @@
         android:text="@string/button"/>
     <!-- End of Login Form -->
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="16sp"
+        android:layout_above="@+id/text_powered"
+        android:textAlignment="center"
+        android:text="Created by Priyam!" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_powered"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:padding="@dimen/activity_vertical_margin"
+        android:textSize="16sp"
+        android:textAlignment="center"
+        android:text="Powered by La-Musica (Pranshu)" />
+
 </RelativeLayout>
