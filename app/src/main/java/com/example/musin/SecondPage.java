@@ -45,6 +45,7 @@ public class SecondPage extends AppCompatActivity {
         strName = bundle.getString("name");
         strTitle = bundle.getString("title");
         downloadUrl = bundle.getString("musicUrl");
+        Log.d("URL USING",downloadUrl);
 
         downloadeButton.setOnClickListener(new View.OnClickListener() {
             @Override
