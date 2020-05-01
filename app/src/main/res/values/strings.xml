@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Musin</string>
+    <string name="musin">Musin</string>
+    <string name="welcome_to_musin">Welcome to Musin</string>
+    <string name="your_favorite_songs">Your Favorite Songs</string>
+    <string name="download">Download</string>
+    <string name="slide_3_title">Get Started</string>
+    <string name="slide_3_desc">Download Now!</string>
+    <string name="skip">Skip</string>
+    <string name="next">Next</string>
+    <string name="start">Start</string>
+    <string name="heading">SONG DOWNLOAD</string>
+    <string name="button">Search</string>
+</resources>
