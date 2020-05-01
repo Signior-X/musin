@@ -44,9 +44,20 @@
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
         android:layout_marginTop="16dp"
+        android:enabled="true"
         android:textColor="@android:color/white"
         android:text="@string/button"/>
     <!-- End of Login Form -->
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/loading_round_animation"
+        android:layout_centerHorizontal="true"
+        android:indeterminate="true"
+        android:layout_below="@+id/btn_search"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:visibility="gone"/>
 
     <TextView
         android:layout_width="match_parent"

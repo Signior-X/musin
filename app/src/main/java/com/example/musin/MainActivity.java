@@ -16,6 +16,9 @@ import com.example.musin.data.ApiUtils;
 import com.example.musin.data.model.Post;
 import com.example.musin.data.model.PostRequest;
 
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,6 +35,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Getting the mApiService to use (object)
+        mApiService = ApiUtils.getAPIService();
+
+        // Calling the API for checking if it is working '/api/check'
+        firstGet();
+
         songNameEdit = (EditText) findViewById(R.id.et_name);
         searchButton = (Button) findViewById(R.id.btn_search);
 
@@ -40,21 +50,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 songTitle = songNameEdit.getText().toString();  // The name with which the song will be downloaded
                 if(songTitle.equals("")) {
-                    // For empty
-                    Context context = getApplicationContext();
-                    CharSequence text = "Song Name is Empty";
-                    int duration = Toast.LENGTH_SHORT;
-
-                    Toast toast = Toast.makeText(context, text, duration);
+                    // For empty value
+                    Toast toast = Toast.makeText(getApplicationContext(), "Song Name is Empty", Toast.LENGTH_SHORT);
                     toast.show();
 
                 }else{
 
-                    // Getting the mApiService to use (object)
-                    mApiService = ApiUtils.getAPIService();
-
-                    // String body = "{ \"name\":\"taki\" }";
-                    Toast toast = Toast.makeText(getApplicationContext(), "Searching", Toast.LENGTH_LONG);
+                    findViewById(R.id.loading_round_animation).setVisibility(View.VISIBLE);
+                    searchButton.setEnabled(false);
+                    // String body = "{ \"name\":\"despacito\" }";
+                    Toast toast = Toast.makeText(getApplicationContext(), "Searching", Toast.LENGTH_SHORT);
                     toast.show();
                     sendPost(songTitle);
 
@@ -64,6 +69,25 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void firstGet(){
+        Log.d("Priyam", "Start");
+        mApiService.firstGet().enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    // This Proves connection is working
+                    Log.d("Priyam Success", response.body().string());
+                } catch (IOException e) {
+                    Log.e("Priyam start",e.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e("Priyam start", t.getMessage());
+            }
+        });
+    }
     /* This sends the response and after things are then taken in consideration */
     public void sendPost(String name){
         Log.d("body",name);
@@ -72,11 +96,14 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<Post> call, Response<Post> response) {
                 if(response.isSuccessful()) {
                     Log.i("POST SUCCESS", "post submitted to API." + response.body().toString());
-
+                    searchButton.setEnabled(true);
+                    findViewById(R.id.loading_round_animation).setVisibility(View.GONE);
                     showResponse(response.body());
                 }
                 else{
                     Log.e("Errorhere", response.message());
+                    searchButton.setEnabled(true);
+                    findViewById(R.id.loading_round_animation).setVisibility(View.GONE);
                     Toast toast = Toast.makeText(getApplicationContext(), "Error: Ask Priyam", Toast.LENGTH_SHORT);
                     toast.show();
                 }
@@ -85,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Post> call, Throwable t) {
                 Log.e("POST ERROR", t.getMessage());
+                searchButton.setEnabled(true);
+                findViewById(R.id.loading_round_animation).setVisibility(View.GONE);
                 Toast toast = Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT);
                 toast.show();
             }
