@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -57,6 +58,13 @@ public class SecondPage extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.s_another).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();  // Here it is going back, clearing the stack of activities
+            }
+        });
+
     }
 
     // Function to check the File Storage
@@ -100,7 +108,7 @@ public class SecondPage extends AppCompatActivity {
         Log.e("URL given", url);
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
         request.setDescription("Musin Dowload");
-        request.setTitle(title);
+        request.setTitle(name);
         request.allowScanningByMediaScanner();
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, name+".mp3");

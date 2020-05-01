@@ -149,6 +149,9 @@ public class MainActivity extends AppCompatActivity {
         //Add the bundle to the intent
         i.putExtras(bundle);
 
+        // Clearing the text field
+        songNameEdit.setText("");
+
         //Fire that second activity
         startActivity(i);
     }
