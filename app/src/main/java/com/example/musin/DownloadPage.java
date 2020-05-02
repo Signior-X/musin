@@ -18,7 +18,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SecondPage extends AppCompatActivity {
+/**
+ * @author Priyam Seth
+ * Date - May 1st, 2020
+ * Class for Downloading songs
+ */
+public class DownloadPage extends AppCompatActivity {
 
     TextView sTitle, sRatings, sLength;
     Button downloadeButton;
@@ -27,7 +32,7 @@ public class SecondPage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_second_page);
+        setContentView(R.layout.activity_download_page);
 
         sTitle = (TextView) findViewById(R.id.s_title);
         sRatings = (TextView) findViewById(R.id.s_ratings);
