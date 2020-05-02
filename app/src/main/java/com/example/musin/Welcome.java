@@ -109,7 +109,7 @@ public class Welcome extends AppCompatActivity {
     // The page you want to show after this
     private void launchLoginScreen() {
         prefManager.setFirstTimeLaunch(false);
-        startActivity(new Intent(Welcome.this, MainActivity.class));
+        startActivity(new Intent(Welcome.this, Main2Activity.class));
         finish();
     }
 
