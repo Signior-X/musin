@@ -39,6 +39,7 @@ public class Welcome extends AppCompatActivity {
         // !Important
         prefManager = new PrefManager(this);  //Created the object to use it from PrefManager.java in this context
 
+
         // If not first time, get him to the home screen
         if (!prefManager.isFirstTimeLaunch()) {
             launchLoginScreen();
