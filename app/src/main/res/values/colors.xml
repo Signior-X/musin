@@ -34,5 +34,7 @@
         <item>@color/dot_dark_screen3</item>
     </array>
 
+    <color name="black">#000030</color>
+
     <color name="button_color">#03DAC5</color>
 </resources>
