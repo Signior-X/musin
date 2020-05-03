@@ -86,7 +86,7 @@ public class SlideshowFragment extends Fragment {
     public void shareApp(){
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, "https://cloud.iitmandi.ac.in/f/44b470c13a/?raw=1");
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "https://cloud.iitmandi.ac.in/d/a9743e8428/");
         sendIntent.setType("text/plain");
 
         Intent shareIntent = Intent.createChooser(sendIntent, "Share Download Link");
