@@ -24,6 +24,9 @@ public class Post {
     @SerializedName("image")
     @Expose
     private String image;
+    @SerializedName("vid_url")
+    @Expose
+    private String videoUrl;
 
     public String getTitle() {
         return title;
@@ -73,11 +76,20 @@ public class Post {
         this.image = image;
     }
 
+    public String getVideoUrl(){
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl){
+        this.videoUrl = videoUrl;
+    }
+
     @Override
     public String toString() {
         return "Post{" +
                 "title='" + title + '\'' +
                 ", url='" + url + '\'' +
+                ", videoUrl='" + videoUrl + '\'' +
                 ", image='" + image + '\'' +
                 ", error='" + error + '\'' +
                 ", length=" + length +

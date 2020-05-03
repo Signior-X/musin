@@ -46,19 +46,19 @@ public class MainActivity extends AppCompatActivity {
 
     Button downloadButton;
     ImageView sImage;
-    TextView textTitle, textRatings, textLength, textAnother;
+    TextView textTitle, textRatings, textLength, textAnother, textWarning;
     ProgressBar isLoading;
     APIService mApiService;
     String gotUrl, strImageUrl;
 
-    String downloadUrl, strName;
+    String downloadUrl, strName, videoUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_download_page);
 
-        // Getting from the layout
+        // Getting from the layout View
         isLoading = (ProgressBar) findViewById(R.id.download_page_progress);
         textTitle = (TextView) findViewById(R.id.s_title);
         textLength = (TextView) findViewById(R.id.s_length);
@@ -66,8 +66,10 @@ public class MainActivity extends AppCompatActivity {
         textAnother = (TextView) findViewById(R.id.s_another);
         downloadButton = (Button) findViewById(R.id.btn_download);
         sImage = (ImageView) findViewById(R.id.thumbnail_image);
+        textWarning = (TextView) findViewById(R.id.warning_text);
+
         // Setting some views
-        textAnother.setVisibility(View.GONE);
+        textAnother.setVisibility(View.GONE); // This will also act as a button instead
         downloadButton.setText("Please Wait"); // So that button can not be pressed
         // Making progress bar visible
         isLoading.setVisibility(View.VISIBLE);
@@ -187,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
             }
         } catch(Exception e){
             // This means the link generation on server is successful
-
+            //Log.d("Priyam Response Got", response.toString());
             // For the ImageView
             // Image View has been set, now set the Image
             strImageUrl = response.getImage();
@@ -226,19 +228,35 @@ public class MainActivity extends AppCompatActivity {
             textTitle.setText("Title: " + response.getTitle());
             textRatings.setText("Ratings: " + response.getRating());
             textLength.setText("Length: " + response.getLength() + " seconds");
-            downloadButton.setText("Download");
+            downloadButton.setText("Download Music");
             isLoading.setVisibility(View.GONE);
 
             // Setting up the values
             strName = response.getTitle();
             downloadUrl = response.getUrl();
+            videoUrl = response.getVideoUrl();
 
+            // Download Button
             downloadButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     /* Download */
                     if(haveStoragePermission()) {  // If the user has granted user permission
                         downloadFile(downloadUrl, strName);
+                    }
+                }
+            });
+
+            // Download Video
+            textAnother.setVisibility(View.VISIBLE);
+            textAnother.setText("Download Video Instead?");
+            textWarning.setVisibility(View.VISIBLE);
+
+            textAnother.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(haveStoragePermission()){
+                        downloadVideoFile(videoUrl, strName);
                     }
                 }
             });
@@ -295,11 +313,26 @@ public class MainActivity extends AppCompatActivity {
         assert manager != null;
         manager.enqueue(request);
 
-        Context context = getApplicationContext();
-        CharSequence text = "Downloading";
-        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(getApplicationContext(), "Music Downloading", Toast.LENGTH_SHORT);
+        toast.show();
 
-        Toast toast = Toast.makeText(context, text, duration);
+        goBack();
+    }
+
+    public void downloadVideoFile(String videoUrl, String name){
+        Log.e("URL given", videoUrl);
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(videoUrl));
+        request.setDescription("Musin Video Dowload");
+        request.setTitle(name);
+        request.allowScanningByMediaScanner();
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, name+".mp4");
+        // get download service and enqueue file
+        DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        assert manager != null;
+        manager.enqueue(request);
+
+        Toast toast = Toast.makeText(getApplicationContext(), "Video Downloading", Toast.LENGTH_SHORT);
         toast.show();
 
         goBack();

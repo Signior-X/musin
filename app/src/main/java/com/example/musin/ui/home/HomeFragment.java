@@ -143,11 +143,16 @@ public class HomeFragment extends Fragment {
                     showResponse(response.body());
                 }
                 else{
-                    //Log.e("Errorhere", response.message());
+                    Log.e("Errorhere", response.message());
                     searchButton.setEnabled(true);
                     root.findViewById(R.id.loading_round_animation).setVisibility(View.GONE);
-                    Toast toast = Toast.makeText(getContext(), "Error: Ask Priyam", Toast.LENGTH_SHORT);
-                    toast.show();
+                    try {
+                        Toast toast = Toast.makeText(getContext(), response.message(), Toast.LENGTH_SHORT);
+                        toast.show();
+                    } catch(Exception e){
+                        Toast toast = Toast.makeText(getContext(), "Error: Ask Priyam", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
                 }
             }
 

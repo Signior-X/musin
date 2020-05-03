@@ -1,29 +1,23 @@
 package com.example.musin.ui.slideshow;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.musin.ChannelDetails;
 import com.example.musin.PrefManager;
 import com.example.musin.R;
-
-import java.util.Objects;
 
 public class SlideshowFragment extends Fragment {
 
@@ -33,7 +27,19 @@ public class SlideshowFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
 
+        // Android sharesheet for sharing the text
+        shareApp();
+
+        // Thanks Notification
         sendNotification(1);
+
+        // Button
+        root.findViewById(R.id.btn_share_again).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareApp();
+            }
+        });
 
         return root;
     }
@@ -47,10 +53,10 @@ public class SlideshowFragment extends Fragment {
         createNotificationChannel();
 
         NotificationCompat.Builder noti = new NotificationCompat.Builder(requireContext(), ChannelDetails.CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_download)
-                .setContentTitle("First Notification!")
-                .setContentText("File Downloaded")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                .setSmallIcon(R.drawable.ic_smile)
+                .setContentTitle("Musin Share!")
+                .setContentText("Thanks for sharing!")
+                .setPriority(NotificationCompat.PRIORITY_HIGH);
 
         // Setting Notification compat
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(requireContext());
@@ -75,5 +81,15 @@ public class SlideshowFragment extends Fragment {
             assert notificationManager != null;
             notificationManager.createNotificationChannel(channel);
         }
+    }
+
+    public void shareApp(){
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "https://cloud.iitmandi.ac.in/f/44b470c13a/?raw=1");
+        sendIntent.setType("text/plain");
+
+        Intent shareIntent = Intent.createChooser(sendIntent, "Share Download Link");
+        startActivity(shareIntent);
     }
 }
