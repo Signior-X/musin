@@ -45,7 +45,7 @@ public class DownloadPage extends AppCompatActivity {
         // Setting the parameters
         sTitle.setText("Title: "+bundle.getString("name"));
         sRatings.setText("Ratings: "+bundle.getString("ratings"));
-        sLength.setText("Length: "+bundle.getString("length"));
+        sLength.setText("Length: "+bundle.getString("length"+" seconds"));
 
         // for downloading
         strName = bundle.getString("name");
