@@ -19,13 +19,15 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.musin.ChannelDetails;
+import com.example.musin.PrefManager;
 import com.example.musin.R;
 
 import java.util.Objects;
 
 public class SlideshowFragment extends Fragment {
 
-    private String CHANNEL_ID = "Priaym1";
+    private PrefManager prefManager;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -38,15 +40,19 @@ public class SlideshowFragment extends Fragment {
 
     // Sample how to send a notification
     public void sendNotification(int notificationId){
-        //Creating a channel (Adds the channel id to the system)
+
+        prefManager = new PrefManager(getContext());
+
+        //Creating notification channel
         createNotificationChannel();
 
-        NotificationCompat.Builder noti = new NotificationCompat.Builder(requireContext(), CHANNEL_ID)
+        NotificationCompat.Builder noti = new NotificationCompat.Builder(requireContext(), ChannelDetails.CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_download)
                 .setContentTitle("First Notification!")
                 .setContentText("File Downloaded")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
+        // Setting Notification compat
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(requireContext());
 
         // notificationId is a unique int for each notification that you must define
@@ -61,7 +67,7 @@ public class SlideshowFragment extends Fragment {
             CharSequence name = "Priyamchannel";
             String description = "Priyamchanneldescription";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            NotificationChannel channel = new NotificationChannel(ChannelDetails.CHANNEL_ID, name, importance);
             channel.setDescription(description);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
