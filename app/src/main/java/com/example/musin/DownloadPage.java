@@ -155,11 +155,11 @@ public class DownloadPage extends AppCompatActivity {
      * Function to download the file
      * Before calling first check if the user has granted permission for storage or else it will give error
      * @param url - URL of the file
-     * @param title
-     * @param name
+     * @param title - title to be set
+     * @param name - Name to be set for the file
      */
     public void downloadFile(String url, String title, String name){
-        Log.e("URL given", url);
+        //Log.e("URL given", url);
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
         request.setDescription("Musin Dowload");
         request.setTitle(name);

@@ -95,13 +95,23 @@
             android:layout_centerInParent="true"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
             android:padding="@dimen/activity_vertical_margin"
             android:textSize="20sp"
             android:textAlignment="center"
             android:text="Download another song?"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorAccentDark"
             android:id="@+id/s_another" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/warning_text"
+            android:text="Videos downloads may not work for some videos"
+            android:textAlignment="center"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:layout_below="@+id/s_another"
+            android:visibility="gone"/>
+
     </RelativeLayout>
     <!-- End of Form -->
 

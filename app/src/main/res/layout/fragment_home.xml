@@ -72,7 +72,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:textSize="16sp"
+        android:textSize="20sp"
         android:layout_above="@+id/text_powered"
         android:textAlignment="center"
         android:text="Created by Priyam!" />
