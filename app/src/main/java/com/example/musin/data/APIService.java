@@ -1,6 +1,8 @@
 package com.example.musin.data;
 
-import com.example.musin.data.model.*;
+import com.example.musin.data.model.Post;
+import com.example.musin.data.model.PostRequest;
+import com.example.musin.data.model.PostUrlYt;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -16,6 +18,12 @@ public interface APIService {
     // Taking gson values in Call<class> from the request which we do
     Call<Post> savePost(@Body PostRequest body);  // Give the JSON Body to pass in the call
 
+    @POST("/api/getytlink")
+    @Headers({"Content-Type: application/json"})
+    // Taking gson values in Call<class> from the request which we do
+    Call<Post> saveUrl(@Body PostUrlYt yturl);
+
     @GET("/api/check")
     Call<ResponseBody> firstGet();
+
 }

@@ -18,6 +18,10 @@ public class Post {
     @SerializedName("length")
     @Expose
     private String length;
+    @SerializedName("error")
+    @Expose
+    private String error;
+
 
     public String getTitle() {
         return title;
@@ -51,11 +55,20 @@ public class Post {
         this.length = length;
     }
 
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+
     @Override
     public String toString() {
         return "Post{" +
                 "title='" + title + '\'' +
                 ", url='" + url + '\'' +
+                ", error='" + error + '\'' +
                 ", length=" + length +
                 ", rating=" + rating +
                 '}';
