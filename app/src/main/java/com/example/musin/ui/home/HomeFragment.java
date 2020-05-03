@@ -62,7 +62,7 @@ public class HomeFragment extends Fragment {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                songTitle = songNameEdit.getText().toString();  // The name with which the song will be downloaded
+                songTitle = songNameEdit.getText().toString().trim();  // The name with which the song will be downloaded
                 if(songTitle.equals("")) {
                     // For empty value
                     Toast toast = Toast.makeText(getContext(), "Song Name is Empty", Toast.LENGTH_SHORT);
@@ -180,6 +180,7 @@ public class HomeFragment extends Fragment {
         bundle.putString("name", songName);
         bundle.putString("ratings", songRatings);
         bundle.putString("length", songLength);
+        Log.d("Priyam check", songLength);
         bundle.putString("musicUrl", songUrl);
 
         //Add the bundle to the intent

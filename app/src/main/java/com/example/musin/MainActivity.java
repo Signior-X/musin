@@ -24,9 +24,17 @@ import com.example.musin.data.ApiUtils;
 import com.example.musin.data.model.Post;
 import com.example.musin.data.model.PostUrlYt;
 
+import java.util.Objects;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+/**
+ * This has become share activity and download after youtube activity
+ * Not the main activity
+ * Date - May 3rd, 2020
+ */
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         isLoading.setVisibility(View.VISIBLE);
 
         // Get the Url from the share intent
+        // This also handles the call from Youtube Downlaoder page (Gallery Fragment)
         gotUrl = onSharedIntent();
 
         // Getting the Rotrofit object
@@ -73,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         String receivedAction = receiverdIntent.getAction();
         String receivedType = receiverdIntent.getType();
 
-        if (receivedAction.equals(Intent.ACTION_SEND)) {
+        if (Objects.equals(receivedAction, Intent.ACTION_SEND)) {
 
             // check mime type
             if (receivedType.startsWith("text/")) {
@@ -81,14 +90,18 @@ public class MainActivity extends AppCompatActivity {
                 String receivedText = receiverdIntent
                         .getStringExtra(Intent.EXTRA_TEXT);
                 if (receivedText != null) {
-                    Log.d("Pecieved Text", receivedText);
+                    Log.d("Recieved Text", receivedText);
                     return receivedText;
                 }
             }
 
-        } else if (receivedAction.equals(Intent.ACTION_MAIN)) {
-
+        } else if (Objects.equals(receivedAction, Intent.ACTION_MAIN)) {
             Log.e("Priyam Error", "onSharedIntent: nothing shared" );
+            return "None";
+        } else{
+            Log.e("Priyam Start", "Successfully called from GalleryFragment");
+            final Bundle bundle = getIntent().getExtras();
+            return bundle.getString("yturl");  // Don't forget to give this or else it will give Null error
         }
     return "error";
     }
@@ -153,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // If an data['error'] on the server side
                 Log.d("Result Priyam",response.getError());
+                isLoading.setVisibility(View.GONE);
                 downloadButton.setText("Back");
                 downloadButton.setOnClickListener(new View.OnClickListener() {
                     @Override

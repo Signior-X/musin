@@ -17,6 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 /**
  * @author Android help Priyam
  * Class at the start which manages the fragments
+ * The Main Activity (By default see home fragment
  */
 
 public class Main2Activity extends AppCompatActivity {
