@@ -76,6 +76,6 @@
         android:layout_margin="@dimen/activity_vertical_margin"
         android:textSize="20sp"
         android:textAlignment="center"
-        android:text="Use Share Button quick downloads!" />
+        android:text="Use Share Button in Youtube for Quick Downloads!" />
 
 </RelativeLayout>

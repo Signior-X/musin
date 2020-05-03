@@ -26,7 +26,7 @@ import android.widget.Toast;
 public class DownloadPage extends AppCompatActivity {
 
     TextView sTitle, sRatings, sLength;
-    Button downloadeButton;
+    Button downloadButton;
     private String downloadUrl, strName, strTitle;
 
     @Override
@@ -38,14 +38,14 @@ public class DownloadPage extends AppCompatActivity {
         sRatings = (TextView) findViewById(R.id.s_ratings);
         sLength = (TextView) findViewById(R.id.s_length);
 
-        downloadeButton = (Button) findViewById(R.id.btn_download);
+        downloadButton = (Button) findViewById(R.id.btn_download);
         //Get the bundle
         final Bundle bundle = getIntent().getExtras();
 
         // Setting the parameters
         sTitle.setText("Title: "+bundle.getString("name"));
         sRatings.setText("Ratings: "+bundle.getString("ratings"));
-        sLength.setText("Length: "+bundle.getString("length"+" seconds"));
+        sLength.setText("Length: "+bundle.getString("length")+" seconds");
 
         // for downloading
         strName = bundle.getString("name");
@@ -53,7 +53,7 @@ public class DownloadPage extends AppCompatActivity {
         downloadUrl = bundle.getString("musicUrl");
         Log.d("URL USING",downloadUrl);
 
-        downloadeButton.setOnClickListener(new View.OnClickListener() {
+        downloadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 /* Download */
