@@ -168,8 +168,8 @@ public class HomeFragment extends Fragment {
      */
     private void showResponse(Post response){
         // Showing the post result
-        //Log.d("Yes", response.toString());
-        startDownloadActivity(response.getTitle(), response.getRating(), response.getLength(), response.getUrl());
+        Log.d("Yes", response.toString());
+        startDownloadActivity(response.getTitle(), response.getRating(), response.getLength(), response.getUrl(), response.getImage());
     }
 
     /**
@@ -178,8 +178,9 @@ public class HomeFragment extends Fragment {
      * @param songRatings Pass the song ratings
      * @param songLength Pass the song length
      * @param songUrl Pass the songUrl
+     * @param imageUrl Pass the thumbnail url of the image
      */
-    private void startDownloadActivity(String songName, String songRatings, String songLength, String songUrl){
+    private void startDownloadActivity(String songName, String songRatings, String songLength, String songUrl, String imageUrl){
 
         /*
         songName = "Taki Taki";
@@ -198,6 +199,7 @@ public class HomeFragment extends Fragment {
         bundle.putString("ratings", songRatings);
         bundle.putString("length", songLength);
         bundle.putString("musicUrl", songUrl);
+        bundle.putString("imageUrl", imageUrl);
 
         //Add the bundle to the intent
         i.putExtras(bundle);

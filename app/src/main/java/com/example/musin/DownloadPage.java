@@ -8,6 +8,8 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -15,8 +17,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * @author Priyam Seth
@@ -25,15 +32,17 @@ import android.widget.Toast;
  */
 public class DownloadPage extends AppCompatActivity {
 
+    ImageView sImage;
     TextView sTitle, sRatings, sLength;
     Button downloadButton;
-    private String downloadUrl, strName, strTitle;
+    private String downloadUrl, strName, strTitle, strImageUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_download_page);
 
+        sImage = (ImageView) findViewById(R.id.thumbnail_image);
         sTitle = (TextView) findViewById(R.id.s_title);
         sRatings = (TextView) findViewById(R.id.s_ratings);
         sLength = (TextView) findViewById(R.id.s_length);
@@ -48,21 +57,61 @@ public class DownloadPage extends AppCompatActivity {
         sLength.setText("Length: "+bundle.getString("length")+" seconds");
 
         // for downloading
+        strImageUrl = bundle.getString("imageUrl");
         strName = bundle.getString("name");
         strTitle = bundle.getString("title");
         downloadUrl = bundle.getString("musicUrl");
         //Log.d("URL USING",downloadUrl);
 
+        // for Image work
+        // Should be done in a new thread
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //Log.d("Priyam check", "This thread is running! .......................................");
+                URL urlImageUrl = null;
+                try {
+                    urlImageUrl = new URL(strImageUrl);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    final Bitmap mIcon_val;
+                    mIcon_val = BitmapFactory.decodeStream(urlImageUrl.openConnection() .getInputStream());
+
+                    // This is needed as another thread can not access the UI thread
+                    sImage.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            sImage.setImageBitmap(mIcon_val);
+                        }
+                    });
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        // Start the thread
+        thread.start();
+
+        // Download Button Action performed
         downloadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 /* Download */
                 if(haveStoragePermission()) {  // If the user has granted user permission
                     downloadFile(downloadUrl, strTitle, strName);
+
+                    // Getting to back
+                    finish();
                 }
             }
         });
 
+        // For another download
         findViewById(R.id.s_another).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

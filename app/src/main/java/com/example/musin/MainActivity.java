@@ -9,12 +9,15 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +27,9 @@ import com.example.musin.data.ApiUtils;
 import com.example.musin.data.model.Post;
 import com.example.musin.data.model.PostUrlYt;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -39,10 +45,11 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     Button downloadButton;
+    ImageView sImage;
     TextView textTitle, textRatings, textLength, textAnother;
     ProgressBar isLoading;
     APIService mApiService;
-    String gotUrl;
+    String gotUrl, strImageUrl;
 
     String downloadUrl, strName;
 
@@ -58,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         textRatings = (TextView) findViewById(R.id.s_ratings);
         textAnother = (TextView) findViewById(R.id.s_another);
         downloadButton = (Button) findViewById(R.id.btn_download);
-
+        sImage = (ImageView) findViewById(R.id.thumbnail_image);
         // Setting some views
         textAnother.setVisibility(View.GONE);
         downloadButton.setText("Please Wait"); // So that button can not be pressed
@@ -180,6 +187,42 @@ public class MainActivity extends AppCompatActivity {
             }
         } catch(Exception e){
             // This means the link generation on server is successful
+
+            // For the ImageView
+            // Image View has been set, now set the Image
+            strImageUrl = response.getImage();
+            // Starting thread to get the image from  strImageUrl
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    //Log.d("Priyam check", "This thread is running! .......................................");
+                    URL urlImageUrl = null;
+                    try {
+                        urlImageUrl = new URL(strImageUrl); //strImageUrl must be an instance variable
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        final Bitmap mIcon_val;
+                        mIcon_val = BitmapFactory.decodeStream(urlImageUrl.openConnection() .getInputStream());
+
+                        // This is needed as another thread can not access the UI thread
+                        sImage.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                sImage.setImageBitmap(mIcon_val);
+                            }
+                        });
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            // Start the thread
+            thread.start();
+
             textTitle.setText("Title: " + response.getTitle());
             textRatings.setText("Ratings: " + response.getRating());
             textLength.setText("Length: " + response.getLength() + " seconds");
