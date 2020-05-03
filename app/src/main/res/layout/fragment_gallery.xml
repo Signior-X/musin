@@ -38,6 +38,8 @@
         android:padding="16dp"
         android:background="@drawable/et_custom"
         android:textSize="15sp"
+        android:inputType="textUri"
+        android:imeOptions="actionGo"
         android:hint="Paste Youtube Link here"
         android:autofillHints="" />
     <!-- Set the autofill hints as suggested by studio -->

@@ -37,8 +37,10 @@
         android:layout_marginRight="24dp"
         android:padding="16dp"
         android:background="@drawable/et_custom"
-        android:textSize="15sp"
-        android:hint="Enter song name here"
+        android:textSize="16sp"
+        android:singleLine="true"
+        android:hint="@string/edit_text_search"
+        android:imeOptions="actionSearch"
         android:autofillHints="" />
     <!-- Set the autofill hints as suggested by studio -->
 
