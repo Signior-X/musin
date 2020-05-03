@@ -21,7 +21,9 @@ public class Post {
     @SerializedName("error")
     @Expose
     private String error;
-
+    @SerializedName("image")
+    @Expose
+    private String image;
 
     public String getTitle() {
         return title;
@@ -63,11 +65,20 @@ public class Post {
         this.error = error;
     }
 
+    public String getImage(){
+        return image;
+    }
+
+    public void setImage(String image){
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "Post{" +
                 "title='" + title + '\'' +
                 ", url='" + url + '\'' +
+                ", image='" + image + '\'' +
                 ", error='" + error + '\'' +
                 ", length=" + length +
                 ", rating=" + rating +

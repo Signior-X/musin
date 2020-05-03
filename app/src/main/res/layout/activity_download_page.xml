@@ -5,6 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/use_view1"
+        android:id="@+id/thumbnail_image"
+        android:layout_margin="@dimen/activity_vertical_margin"/>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -35,23 +42,11 @@
         android:layout_above="@+id/s_length"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:padding="@dimen/activity_vertical_margin"
+        android:padding="8dp"
         android:textSize="16sp"
+        android:textStyle="bold"
         android:textAlignment="center"
         android:id="@+id/s_title" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/s_ratings"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:padding="@dimen/activity_vertical_margin"
-        android:textSize="16sp"
-        android:textAlignment="center"
-        android:id="@+id/s_length" />
-
 
     <TextView
         android:layout_width="match_parent"
@@ -60,7 +55,19 @@
         android:layout_centerInParent="true"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:padding="@dimen/activity_vertical_margin"
+        android:padding="8dp"
+        android:textSize="16sp"
+        android:textAlignment="center"
+        android:id="@+id/s_length" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/s_length"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:padding="8dp"
         android:textSize="16sp"
         android:textAlignment="center"
         android:id="@+id/s_ratings" />
