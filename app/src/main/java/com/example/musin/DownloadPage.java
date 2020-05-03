@@ -51,7 +51,7 @@ public class DownloadPage extends AppCompatActivity {
         strName = bundle.getString("name");
         strTitle = bundle.getString("title");
         downloadUrl = bundle.getString("musicUrl");
-        Log.d("URL USING",downloadUrl);
+        //Log.d("URL USING",downloadUrl);
 
         downloadButton.setOnClickListener(new View.OnClickListener() {
             @Override

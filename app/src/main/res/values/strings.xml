@@ -26,4 +26,5 @@
 
     <string name="home_second">Home Second</string>
     <string name="author_info">Created by Priyam Seth</string>
+    <string name="edit_text_search">Enter song name here</string>
 </resources>

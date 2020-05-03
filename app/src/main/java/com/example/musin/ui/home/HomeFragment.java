@@ -3,11 +3,14 @@ package com.example.musin.ui.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,6 +24,7 @@ import com.example.musin.data.model.Post;
 import com.example.musin.data.model.PostRequest;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -38,12 +42,11 @@ public class HomeFragment extends Fragment {
 
     // Variable Declarations
     private APIService mApiService;
-    EditText songNameEdit;
-    String songTitle;
-    Button searchButton;
+    private EditText songNameEdit;
+    private Button searchButton;
     private static int REQUEST_CODE=1;
 
-    View root;
+    private View root;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -56,39 +59,53 @@ public class HomeFragment extends Fragment {
         // Calling the API for checking if it is working '/api/check'
         firstGet();
 
+        // Should cast for API 26 lower android versions
         songNameEdit = (EditText) root.findViewById(R.id.et_name);
         searchButton = (Button) root.findViewById(R.id.btn_search);
 
+        // for keyboard search button clicked IME
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                songTitle = songNameEdit.getText().toString().trim();  // The name with which the song will be downloaded
-                if(songTitle.equals("")) {
-                    // For empty value
-                    Toast toast = Toast.makeText(getContext(), "Song Name is Empty", Toast.LENGTH_SHORT);
-                    toast.show();
-
-                }else{
-
-                    root.findViewById(R.id.loading_round_animation).setVisibility(View.VISIBLE);
-                    searchButton.setEnabled(false);
-                    // String body = "{ \"name\":\"despacito\" }";
-                    Toast toast = Toast.makeText(getContext(), "Searching", Toast.LENGTH_SHORT);
-                    toast.show();
-                    sendPost(songTitle);
-
-                }
+                // The name with which the song will be downloaded
+                actionOnSearch(songNameEdit.getText().toString().trim());
             }
         });
 
+        // for search button pressed
+        songNameEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId == EditorInfo.IME_ACTION_SEARCH){
+                    actionOnSearch(v.getText().toString().trim());
+                }
+                return false;
+            }
+        });
 
         return root;
+    }
+
+    private void actionOnSearch(String searchText){
+        if(searchText.equals("")) {
+            // For empty value
+            Toast toast = Toast.makeText(getContext(), "Song Name is Empty", Toast.LENGTH_SHORT);
+            toast.show();
+
+        }else{
+            root.findViewById(R.id.loading_round_animation).setVisibility(View.VISIBLE);
+            searchButton.setEnabled(false);
+            // String body = "{ \"name\":\"Despacito\" }";
+            Toast toast = Toast.makeText(getContext(), "Searching", Toast.LENGTH_SHORT);
+            toast.show();
+            sendPost(searchText);
+        }
     }
 
     /**
      * Function to call so that server wakes up if sleeping
      */
-    public void firstGet(){
+    private void firstGet(){
         Log.d("Priyam", "Start");
         mApiService.firstGet().enqueue(new Callback<ResponseBody>() {
             @Override
@@ -103,7 +120,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e("Priyam start", t.getMessage());
+                Log.e("Priyam start", Objects.requireNonNull(t.getMessage()));
             }
         });
     }
@@ -114,19 +131,19 @@ public class HomeFragment extends Fragment {
      * Function to send the post request using retrofit at the API Service Class in data package
      * @param name Song Name
      */
-    public void sendPost(String name){
-        Log.d("body",name);
+    private void sendPost(String name){
+        //Log.d("body",name);
         mApiService.savePost(new PostRequest(name)).enqueue(new Callback<Post>() {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {
                 if(response.isSuccessful()) {
-                    Log.i("POST SUCCESS", "post submitted to API." + response.body().toString());
+                    //Log.i("POST SUCCESS", "post submitted to API." + response.body().toString());
                     searchButton.setEnabled(true);
                     root.findViewById(R.id.loading_round_animation).setVisibility(View.GONE);
                     showResponse(response.body());
                 }
                 else{
-                    Log.e("Errorhere", response.message());
+                    //Log.e("Errorhere", response.message());
                     searchButton.setEnabled(true);
                     root.findViewById(R.id.loading_round_animation).setVisibility(View.GONE);
                     Toast toast = Toast.makeText(getContext(), "Error: Ask Priyam", Toast.LENGTH_SHORT);
@@ -136,7 +153,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<Post> call, Throwable t) {
-                Log.e("POST ERROR", t.getMessage());
+                //Log.e("POST ERROR", Objects.requireNonNull(t.getMessage()));
                 searchButton.setEnabled(true);
                 root.findViewById(R.id.loading_round_animation).setVisibility(View.GONE);
                 Toast toast = Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT);
@@ -149,20 +166,20 @@ public class HomeFragment extends Fragment {
      * Function useful while debugging
      * @param response - Response got from the server from /api/getdata
      */
-    public void showResponse(Post response){
+    private void showResponse(Post response){
         // Showing the post result
-        Log.d("Yes", response.toString());
+        //Log.d("Yes", response.toString());
         startDownloadActivity(response.getTitle(), response.getRating(), response.getLength(), response.getUrl());
     }
 
     /**
      * Start the DownloadActivity - Moves to DownloadPage
-     * @param songName
-     * @param songRatings
-     * @param songLength
-     * @param songUrl
+     * @param songName Pass the song name
+     * @param songRatings Pass the song ratings
+     * @param songLength Pass the song length
+     * @param songUrl Pass the songUrl
      */
-    public void startDownloadActivity(String songName, String songRatings, String songLength, String songUrl){
+    private void startDownloadActivity(String songName, String songRatings, String songLength, String songUrl){
 
         /*
         songName = "Taki Taki";
@@ -176,11 +193,10 @@ public class HomeFragment extends Fragment {
         Bundle bundle = new Bundle();
 
         //Add your data to bundle
-        bundle.putString("title", songTitle);  // Taking from the instance variable
+        bundle.putString("title", songName);  // Taking from the instance variable
         bundle.putString("name", songName);
         bundle.putString("ratings", songRatings);
         bundle.putString("length", songLength);
-        Log.d("Priyam check", songLength);
         bundle.putString("musicUrl", songUrl);
 
         //Add the bundle to the intent
