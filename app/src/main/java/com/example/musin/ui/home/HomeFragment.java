@@ -60,6 +60,9 @@ public class HomeFragment extends Fragment {
         // Setting the View
         root = inflater.inflate(R.layout.fragment_home, container, false);
 
+        // Very Very Important - This removes the problem of resizing on soft keyboard
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+
         // Getting the mApiService to use (object)
         mApiService = ApiUtils.getAPIService();
 
