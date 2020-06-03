@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.musin.DownloadPage;
@@ -84,6 +85,12 @@ public class HomeFragment extends Fragment {
         });
 
         return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @NonNull Bundle savedInstanceState) {
+//        Log.d("Hello Priyam", "Ths is called here");
+
     }
 
     private void actionOnSearch(String searchText){
