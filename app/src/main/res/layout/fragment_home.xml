@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/login_rel_layout"
     android:layout_width="match_parent"
+    
     android:layout_height="match_parent">
 
     <!-- Trying this -->
@@ -10,101 +11,14 @@
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_gravity="top"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"/>
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Search" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Downloaded" />
-
-    </com.google.android.material.tabs.TabLayout>
-
-    <RelativeLayout
-        android:layout_gravity="center"
+    <androidx.viewpager2.widget.ViewPager2
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/et_name">
-
-        <!-- Heading -->
-        <TextView
-            android:id="@+id/loginHeading"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="@string/heading"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            android:textSize="48sp"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display4"
-            android:paddingTop="16dp"/>
-        <!-- Heading End -->
-
-    </RelativeLayout>
-
-    <!-- Form -->
-    <EditText
-        android:id="@+id/et_name"
-        android:layout_width="match_parent"
-        android:layout_centerInParent="true"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        android:padding="16dp"
-        android:background="@drawable/et_custom"
-        android:textSize="16sp"
-        android:singleLine="true"
-        android:hint="@string/edit_text_search"
-        android:imeOptions="actionSearch"
-        android:autofillHints="" />
-    <!-- Set the autofill hints as suggested by studio -->
-
-    <Button
-        android:id="@+id/btn_search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/et_name"
-        android:background="@drawable/btn_custom"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginTop="16dp"
-        android:enabled="true"
-        android:textColor="@android:color/white"
-        android:text="@string/button"/>
-    <!-- End of Login Form -->
-
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/loading_round_animation"
-        android:layout_centerHorizontal="true"
-        android:indeterminate="true"
-        android:layout_below="@+id/btn_search"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:visibility="gone"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:textSize="20sp"
-        android:layout_above="@+id/text_powered"
-        android:textAlignment="center"
-        android:text="Created by Priyam!" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/text_powered"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:padding="@dimen/activity_vertical_margin"
-        android:textSize="16sp"
-        android:textAlignment="center"
-        android:text="Powered by La-Musica (Pranshu)" />
+        android:id="@+id/home_view_pager2"
+        android:layout_below="@+id/tab_layout"
+        />
 
 </RelativeLayout>
