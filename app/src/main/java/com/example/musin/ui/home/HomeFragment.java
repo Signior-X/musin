@@ -53,7 +53,7 @@ public class HomeFragment extends Fragment {
     private View root;
 
     // tab titles
-    private String[] tabTitles = new String[]{"Movies", "Events"};
+    private String[] tabTitles = new String[]{"Search", "Downloaded"};
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -61,7 +61,7 @@ public class HomeFragment extends Fragment {
         root = inflater.inflate(R.layout.fragment_home, container, false);
 
         // Very Very Important - This removes the problem of resizing on soft keyboard
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+        requireActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
         // Getting the mApiService to use (object)
         mApiService = ApiUtils.getAPIService();
